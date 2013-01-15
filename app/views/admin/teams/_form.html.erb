@@ -1,0 +1,6 @@
+<%= simple_form_for [:admin, @team], :html => { :class => 'form-vertical' } do |f| %>
+  <%= f.error_notification %>
+  <%= display_base_errors @team %>
+  <%= f.input :name %>
+  <%= f.submit "Add", :class => 'btn btn-primary' %>
+<% end %>

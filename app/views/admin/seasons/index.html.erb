@@ -1,0 +1,28 @@
+<h3>Seasons</h3>
+
+<div id="seasons">
+  <table class="table table-condensed">
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th># Rounds</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% if @seasons.empty? %>
+        <tr>
+          <td colspan="2">No seasons found.</td>
+        </tr>
+      <% else %>
+        <%= render :partial => @seasons %>
+      <% end %>
+    </tbody>
+  </table>
+</div>
+
+<br/>
+<br/>
+
+<div id="form">
+  <%=  render :partial => "admin/seasons/form" %>
+</div>

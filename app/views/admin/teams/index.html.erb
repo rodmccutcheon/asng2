@@ -1,0 +1,28 @@
+<h3>Teams</h3>
+<div class="span8">
+<table class="table table-condensed">
+    <thead>
+      <tr>
+          <th>Name</th>
+          <th></th>
+          <th></th>
+      </tr>
+  </thead>
+  <tbody
+    <% if @teams.empty? %>
+      <tr>
+        <td colspan="2">No teams found.</td>
+      </tr>
+    <% else %>
+      <%= render :partial => @teams %>
+    <% end %>
+  </tbody>
+</table>
+</div>
+
+<br/>
+<br/>
+
+<div id="form">
+  <%=  render :partial => "admin/teams/form" %>
+</div>

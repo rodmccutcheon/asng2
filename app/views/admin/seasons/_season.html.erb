@@ -1,0 +1,6 @@
+<tr id="season_<%= season.id %>">
+  <td><%= season.name %></td>
+  <td id="num_rounds"><%= season.rounds.size %></td>
+  <td><%= link_to "Edit", edit_admin_season_path(season), :class => "btn btn-mini" %></td>
+  <td><%= link_to "Delete", admin_season_path(season), :method => :delete, :class => "btn btn-mini btn-danger" %></td>
+</tr>
