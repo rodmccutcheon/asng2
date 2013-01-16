@@ -36,6 +36,7 @@ group :test do
   gem 'factory_girl'
   gem 'rb-fsevent' #, :require => false if RUBY_PLATFORM =~ &crarr;/darwin/i
   gem 'guard-rspec'
+  gem 'mocha', :require => false
 end
 
 group :cucumber do
