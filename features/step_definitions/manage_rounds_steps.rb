@@ -55,7 +55,7 @@ Then /^I should see the season now has a round$/ do
 end
 
 Then /^I should see an invalid round message$/ do
-  page.should have_content "Round Name can't be blank"
+  page.should have_content "Round name can't be blank"
 end
 
 Then /^I should see the new name reflected$/ do

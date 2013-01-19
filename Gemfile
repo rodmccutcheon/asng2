@@ -37,10 +37,12 @@ group :test do
   gem 'rb-fsevent' #, :require => false if RUBY_PLATFORM =~ &crarr;/darwin/i
   gem 'guard-rspec'
   gem 'mocha', :require => false
+  gem 'shoulda'
 end
 
 group :cucumber do
   gem 'capybara'
+  gem 'capybara-webkit', :git => "git://github.com/thoughtbot/capybara-webkit.git"
   gem 'database_cleaner'
   gem 'cucumber-rails'
   gem 'cucumber'

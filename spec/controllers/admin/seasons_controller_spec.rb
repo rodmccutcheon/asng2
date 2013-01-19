@@ -1,109 +1,132 @@
 require 'spec_helper'
 
 describe Admin::SeasonsController do
+  let(:season) { season = mock("season") }
 
   describe "GET #index" do
-    it "returns http success" do
-      get :index
-      response.should be_success
-    end
-
-    it "renders the index template" do
-      get :index
-      response.should render_template("index")
-    end
-
-    it "assigns @seasons" do
-      season = mock("season")
+    before(:each) do
       Season.stubs(:all).returns([season])
       get :index
-      assigns(:seasons).should eq([season])
     end
 
-    # Creation of seasons happens on the index page, so we assign a new season here
-    # instead of in a new action.
-    it "assigns @season" do
-      get :index
-      assigns(:season).should be_a_new(Season)
-    end
+    it { should respond_with(:success) }
+    it { should render_template(:index) }
+    it { should assign_to(:seasons).with([season]) }
+    it { should assign_to(:season) }
   end
 
   describe "POST #create" do
-    let(:season) { season = stub_everything("season") }
-
-    before do
+    before(:each) do
       Season.stubs(:new).returns(season)
+      season.stubs(:save)
     end
 
-    it "creates a new season" do
+    it "should assign @seasons" do
+      Season.stubs(:all).returns([season])
+      post :create
+      should assign_to(:seasons).with([season])
+    end
+
+    it "should create a new season" do
       Season.expects(:new).with("name" => "Season 1, 2012").returns(season)
       post :create, :season => { "name" => "Season 1, 2012" }
     end
 
-    it "saves the season" do
+    it "should save the season" do
       season.expects(:save)
       post :create
     end
 
     context "when the season saves successfully" do
-      before do
+      before(:each) do
         season.stubs(:save).returns(true)
+        post :create
       end
 
-      it "has a successful flash notice" do
-        post :create
-        flash[:notice].should be
-      end
-
-      it "redirects to the season index" do
-        post :create
-        response.should redirect_to(:action => "index")
-      end
+      it { should set_the_flash }
+      it { should redirect_to(:action => "index") }
     end
 
     context "when the season fails to save" do
-      before do
+      before(:each) do
         season.stubs(:save).returns(false)
+        post :create
       end
 
-      it "assigns @season" do
-        post :create
-        assigns(:season).should eq(season)
-      end
-
-      it "re-renders the season index" do
-        post :create
-        response.should render_template("index")
-      end
+      it { should assign_to(:season).with(season) }
+      it { should render_template(:index) }
     end
   end
 
   describe "GET #edit" do
-    it "finds the season" do
-      season = mock("season")
+    before(:each) do
       Season.stubs(:find).with("1").returns(season)
+    end
+
+    it "should find the season" do
       Season.expects(:find).with("1").returns(season)
       get :edit, :id => "1"
+    end
+
+    it "should render the edit template" do
+      get :edit, :id => "1"
+      response.should render_template("edit")
     end
   end
 
   describe "PUT #update" do
+    before(:each) do
+      Season.stubs(:find).with("1").returns(season)
+      season.stubs(:update_attributes)
+    end
 
+    after(:each) do
+      put :update, :id => "1"
+    end
+
+    it "should find the season" do
+      Season.expects(:find).with("1").returns(season)
+    end
+
+    it "should update the season's attributes" do
+      season.expects(:update_attributes)
+    end
+
+    context "when the season updates successfully" do
+      before do
+        season.stubs(:update_attributes).returns(true)
+        put :update, :id => "1"
+      end
+
+      it { should set_the_flash }
+      it { should redirect_to(:action => "index") }
+    end
+
+    context "when the season fails to update" do
+      before(:each) do
+        season.stubs(:update_attributes).returns(false)
+        put :update, :id => "1"
+      end
+
+      it { should assign_to(:season).with(season) }
+      it { should render_template(:edit) }
+    end
   end
 
   describe "DELETE #destroy" do
-
-    it "redirect to season index" do
-      delete :destroy, :id => "1"
-      response.should redirect_to(:action => "index")
+    before(:each) do
+      Season.stubs(:find).with("1").returns(season)
+      season.stubs(:destroy)
     end
 
-    it "delete the project" do
-      season = mock("season")
-      #Season.stubs(:find).returns(season)
-      season.stubs(:destroy)
+    it "should delete the project" do
       season.expects(:destroy)
-      delete :destroy, :id => season.id
+      delete :destroy, :id => "1"
+    end
+
+    it "should redirect to the index action" do
+      delete :destroy, :id => "1"
+      response.should redirect_to(:action => "index")
     end
   end
 

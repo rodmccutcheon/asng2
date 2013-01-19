@@ -5,7 +5,7 @@ require File.dirname(__FILE__) + "/factories"
 require 'rspec/rails'
 require 'rspec/autorun'
 require 'database_cleaner'
-require "mocha/setup"
+require 'mocha'
 
 # Requires supporting ruby files with custom matchers and macros, etc,
 # in spec/support/ and its subdirectories.
